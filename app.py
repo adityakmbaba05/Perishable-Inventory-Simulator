@@ -274,7 +274,8 @@ def page_results():
         return
     s1, s2, opt, inst = res["s1"], res["s2"], res["opt"], res["inst"]
     M = inst["M"]
-    st.write(f"**{inst['name']}** · Y_T = ({', '.join(map(str, s1['Y']))}) · {s2['reps']:,} replications, seed {s2['seed']}")
+    seed_label = f", seed {s2['seed']}" if "seed" in s2 else ""
+    st.write(f"**{inst['name']}** · Y_T = ({', '.join(map(str, s1['Y']))}) · {s2['reps']:,} replications{seed_label}")
     k = st.columns(5)
     k[0].metric("TC_H (mean)", fmt(s2["TC"]), help="Mean total cost over the replications, Eq. (1).")
     k[1].metric("95% CI half-width", "± " + fmt(s2["ci95"]), help=f"[{fmt(s2['TC'] - s2['ci95'])}, {fmt(s2['TC'] + s2['ci95'])}]")
