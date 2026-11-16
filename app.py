@@ -272,7 +272,12 @@ def page_results():
     if not res:
         st.info("Run the model on page 2 first.")
         return
-    s1, s2, opt, inst = res["s1"], res["s2"], res["opt"], res["inst"]
+    s2 = res["s2"]
+    required_step2 = {"reps", "TC", "ci95", "avg_cycle_length", "per_period", "parts", "costs"}
+    if not required_step2.issubset(s2):
+        st.warning("These saved results are from an older app version. Go to **2 · Run model** and run the heuristic again.")
+        return
+    s1, opt, inst = res["s1"], res["opt"], res["inst"]
     M = inst["M"]
     seed_label = f", seed {s2['seed']}" if "seed" in s2 else ""
     st.write(f"**{inst['name']}** · Y_T = ({', '.join(map(str, s1['Y']))}) · {s2['reps']:,} replications{seed_label}")
